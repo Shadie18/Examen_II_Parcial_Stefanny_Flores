@@ -3,6 +3,27 @@ namespace Dao\Recetas;
 use Dao\Table;
 
 class Recetas extends Table {
+    public static function getRecetasRapidas() {
+        $sqlstr = "SELECT r.id_receta as idReceta, r.nombre, r.ingrediente_principal as ingredientePrincipal, r.tiempo_preparacion_min as tiempoPreparacionMin, r.tipo_cocina as tipoCocina, r.dificultad FROM RecetasComida r ORDER BY r.tiempo_preparacion_min ASC LIMIT 3";
+        $params = [];
+        $registros = self::obtenerRegistros($sqlstr, $params);
+        return $registros;
+    }
+
+    public static function getRecetasDestacadas() {
+        $sqlstr = "SELECT r.id_receta as idReceta, r.nombre, r.ingrediente_principal as ingredientePrincipal, r.tiempo_preparacion_min as tiempoPreparacionMin, r.tipo_cocina as tipoCocina, r.dificultad FROM RecetasComida r WHERE r.dificultad = 'DIF'";
+        $params = [];
+        $registros = self::obtenerRegistros($sqlstr, $params);
+        return $registros;
+    }
+
+    public static function getRecetasNuevas() {
+        $sqlstr = "SELECT r.id_receta as idReceta, r.nombre, r.ingrediente_principal as ingredientePrincipal, r.tiempo_preparacion_min as tiempoPreparacionMin, r.tipo_cocina as tipoCocina, r.dificultad FROM RecetasComida r ORDER BY r.id_receta DESC LIMIT 3";
+        $params = [];
+        $registros = self::obtenerRegistros($sqlstr, $params);
+        return $registros;
+    }
+
     public static function getRecetas(
         string $partialNombre = "",
         string $dificultad = "",
